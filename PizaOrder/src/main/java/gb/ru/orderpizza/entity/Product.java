@@ -1,7 +1,6 @@
 package gb.ru.orderpizza.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 /**
