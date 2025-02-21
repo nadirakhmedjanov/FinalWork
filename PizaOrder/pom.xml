@@ -24,7 +24,11 @@
 			<artifactId>okta-spring-boot-starter</artifactId>
 			<version>2.1.7</version>
 		</dependency>
-
+		<dependenc>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.11.5</version>
+		</dependenc>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
