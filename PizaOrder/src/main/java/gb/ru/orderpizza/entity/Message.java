@@ -74,7 +74,6 @@ public class Message {
     private boolean closed;
 
     public void setAdminText(String text) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setAdminText'");
     }
 }
