@@ -29,8 +29,8 @@ public class Product {
    * Цена Пицы в долларах (Пицы).
    */
   @Column(name = "price")
+  private int price;
 
-  private int pirice;
   /**
    * Описание пицы.
    */
@@ -41,8 +41,8 @@ public class Product {
   /**
    * Количество готовых к продаже пиц.
    */
-  @Column(name = "quantity_available")
-  private int quantityAvailable;
+  @Column(name = "quantity_availlable")
+  private int quantityAvaillable;
 
   /**
    * Категория Пицы.

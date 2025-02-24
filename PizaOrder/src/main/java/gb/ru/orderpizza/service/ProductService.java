@@ -62,12 +62,12 @@ public class ProductService {
             throw new ProductAlreadyOrderedException("Вы уже заказали этот продукт.");
         }
 
-        if (product.getQuantityAvailable() < orderQuantity) {
+        if (product.getQuantityAvaillable() < orderQuantity) {
             throw new InsufficientStockException("Недостаточно готовых пиц.");
         }
 
         // Уменьшаем количество доступных товаров
-        product.setQuantityAvailable(product.getQuantityAvailable() - orderQuantity);
+        product.setQuantityAvaillable(product.getQuantityAvaillable() - orderQuantity);
         productRepository.save(product);
 
         // Создаем и сохраняем заказ
