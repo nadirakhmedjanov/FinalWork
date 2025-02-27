@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * The type Books library application tests.
  */
 @SpringBootTest
-class BooksLibraryApplicationTests {
+class OrderPizzaAppTest {
 
     /**
      * Context loads.
