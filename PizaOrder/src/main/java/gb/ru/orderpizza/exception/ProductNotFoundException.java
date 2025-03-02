@@ -1,6 +1,9 @@
 package gb.ru.orderpizza.exception;
 
-public class ProductNotFoundException extends Exception {
+/**
+ * Исключение, которое выбрасывается, когда продукт не найден.
+ */
+public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(String message) {
         super(message);
     }

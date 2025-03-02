@@ -1,5 +1,7 @@
 package gb.ru.orderpizza.requestmodels;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 /**
@@ -10,7 +12,7 @@ public class AppendProductRequest {
     private  String name;
     private String description;
     private int quantityAvaillable;
-    private int price;
+    private BigDecimal price;
     private String category;
     private String img;
 }

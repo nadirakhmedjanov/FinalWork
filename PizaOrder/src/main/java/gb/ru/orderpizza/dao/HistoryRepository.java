@@ -3,7 +3,7 @@ package gb.ru.orderpizza.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import gb.ru.orderpizza.entity.History;
 
@@ -19,6 +19,6 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
      * @return страница истории заказов
      */
     Page<History> findProductByUserNumber(
-        @RequestParam("userNumber") String userNumber,
+        String userNumber,
         Pageable pageable);
 }

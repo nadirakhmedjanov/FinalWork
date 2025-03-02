@@ -1,29 +1,36 @@
 package gb.ru.orderpizza.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import gb.ru.orderpizza.config.Environment;
 import gb.ru.orderpizza.requestmodels.AppendProductRequest;
 import gb.ru.orderpizza.service.AdminService;
 import gb.ru.orderpizza.utils.JWTParser;
+import gb.ru.orderpizza.exception.ForbiddenException;
 
-/**
- * Контроллер для администраторских операций.
- */
 @CrossOrigin(Environment.host)
 @RestController
 @RequestMapping("api/admin")
 public class AdminController {
 
-    private AdminService adminService;
+    private final AdminService adminService;
 
-    /**
-     * Конструктор контроллера.
-     *
-     * @param adminService сервис для администраторских операций
-     */
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
+    }
+
+    /**
+     * Проверка роли администратора на основе JWT токена.
+     *
+     * @param token токен авторизации
+     * @throws ForbiddenException если пользователь не администратор
+     */
+    private void checkAdminRole(String token) throws ForbiddenException {
+        String admin = JWTParser.extractRole(token);
+        if (admin == null || !admin.equals("admin")) {
+            throw new ForbiddenException("Вы не администратор");
+        }
     }
 
     /**
@@ -31,74 +38,90 @@ public class AdminController {
      *
      * @param token   токен авторизации
      * @param product данные о добавляемом продукте
-     * @throws Exception если пользователь не является администратором
+     * @return ответ с успешным статусом
+     * @throws ForbiddenException если пользователь не является администратором
      */
     @PostMapping("/secure/append/product")
-    public void postBook(
-            @RequestHeader(value = "Authorization") String token,
-            @RequestBody AppendProductRequest product) throws Exception {
-        String admin = JWTParser.extractRole(token);
-        if (admin == null
-            || !admin.equals("admin")) {
-            throw new Exception("Вы не администратор");
-        }
+public ResponseEntity<Void> postProduct(
+        @RequestHeader(value = "Authorization") String token,
+        @RequestBody AppendProductRequest product) {
+    try {
+        checkAdminRole(token);
         adminService.postProduct(product);
+        return ResponseEntity.ok().build();  // Возвращаем HTTP статус 200 OK
+    } catch (ForbiddenException e) {
+        return ResponseEntity.status(403).body(null);  // Возвращаем HTTP статус 403 Forbidden
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);  // Возвращаем HTTP статус 500 Internal Server Error
     }
+}
 
     /**
      * DELETE-запрос для удаления продукта администратором.
      *
      * @param token     токен авторизации
      * @param productId идентификатор удаляемого продукта
-     * @throws Exception если пользователь не является администратором
+     * @return ответ с успешным статусом
+     * @throws ForbiddenException если пользователь не является администратором
      */
     @DeleteMapping("/secure/remove/product")
-    public void deleteBook(
-            @RequestHeader(value = "Authorization") String token,
-            @RequestParam Long productId) throws Exception {
-        String admin = JWTParser.extractRole(token);
-        if (admin == null
-                || !admin.equals("admin")) {
-            throw new Exception("Вы не администратор");
-        }
+public ResponseEntity<Void> deleteProduct(
+        @RequestHeader(value = "Authorization") String token,
+        @RequestParam Long productId) {
+    try {
+        checkAdminRole(token);
         adminService.deleteProduct(productId);
+        return ResponseEntity.ok().build();  // Возвращаем HTTP статус 200 OK
+    } catch (ForbiddenException e) {
+        return ResponseEntity.status(403).body(null);  // Возвращаем HTTP статус 403 Forbidden
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);  // Возвращаем HTTP статус 500 Internal Server Error
     }
+}
 
     /**
      * PUT-запрос для увеличения количества продукта администратором.
      *
      * @param token     токен авторизации
      * @param productId идентификатор продукта
-     * @throws Exception если пользователь не является администратором
+     * @return ответ с успешным статусом
+     * @throws ForbiddenException если пользователь не является администратором
      */
     @PutMapping("/secure/count/inc")
-    public void incBookCount(
-            @RequestHeader(value = "Authorization") String token,
-            @RequestParam Long productId) throws Exception {
-        String admin = JWTParser.extractRole(token);
-        if (admin == null
-                || !admin.equals("admin")) {
-            throw new Exception("Вы не администратор");
-        }
+public ResponseEntity<Void> incProductCount(
+        @RequestHeader(value = "Authorization") String token,
+        @RequestParam Long productId) {
+    try {
+        checkAdminRole(token);
         adminService.incProductCount(productId);
+        return ResponseEntity.ok().build();  // Возвращаем HTTP статус 200 OK
+    } catch (ForbiddenException e) {
+        return ResponseEntity.status(403).body(null);  // Возвращаем HTTP статус 403 Forbidden
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);  // Возвращаем HTTP статус 500 Internal Server Error
     }
+}
 
     /**
      * PUT-запрос для уменьшения количества продукта администратором.
      *
      * @param token     токен авторизации
      * @param productId идентификатор продукта
-     * @throws Exception если пользователь не является администратором
+     * @return ответ с успешным статусом
+     * @throws ForbiddenException если пользователь не является администратором
      */
     @PutMapping("/secure/count/dec")
-    public void decBookCount(
-            @RequestHeader(value = "Authorization") String token,
-            @RequestParam Long productId) throws Exception {
-        String admin = JWTParser.extractRole(token);
-        if (admin == null
-                || !admin.equals("admin")) {
-            throw new Exception("Вы не администратор");
-        }
+public ResponseEntity<Void> decProductCount(
+        @RequestHeader(value = "Authorization") String token,
+        @RequestParam Long productId) {
+    try {
+        checkAdminRole(token);
         adminService.decProductCount(productId);
+        return ResponseEntity.ok().build();  // Возвращаем HTTP статус 200 OK
+    } catch (ForbiddenException e) {
+        return ResponseEntity.status(403).body(null);  // Возвращаем HTTP статус 403 Forbidden
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);  // Возвращаем HTTP статус 500 Internal Server Error
     }
+}
 }

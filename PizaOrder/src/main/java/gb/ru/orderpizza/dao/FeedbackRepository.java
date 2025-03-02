@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import gb.ru.orderpizza.entity.Feedback;
 
@@ -22,7 +22,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
    * @param pageable  объект для пагинации результатов
    * @return страница отзывов, относящихся к продукту
    */
-  Page<Feedback> findByProductId(@RequestParam("productId") Long productId, Pageable pageable);
+  Page<Feedback> findByProductId(Long productId, Pageable pageable);
 
   /**
    * Метод для поиска отзыва пользователя по идентификатору продукта.
@@ -39,6 +39,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
    * @param productId идентификатор продукта
    */
   @Modifying
-  @Query("delete from Review where product_id in :product_id")
+  @Query("delete from Feedback where product_id in :product_id")
   void deleteAllByProductId(@Param("product_id") Long productId);
 }

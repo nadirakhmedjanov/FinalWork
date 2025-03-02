@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import gb.ru.orderpizza.dao.MessageRepository;
 import gb.ru.orderpizza.entity.Message;
 import gb.ru.orderpizza.responsemodels.OperatorAnswer;
+import gb.ru.orderpizza.exception.MessageNotFoundException;
 
-import java.util.Optional;
+
 
 /**
  * Сервис для управления сообщениями.
@@ -17,7 +18,7 @@ import java.util.Optional;
 @Transactional
 public class MessagesService {
     
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
 
     /**
      * Конструктор для создания экземпляра сервиса сообщений.
@@ -33,7 +34,7 @@ public class MessagesService {
      * Метод для создания нового сообщения в системе.
      *
      * @param messageRequest запрос на создание сообщения
-     * @param userEmail      адрес электронной почты пользователя, создавшего сообщение
+     * @param userNumber     номер телефона пользователя, создавшего сообщение
      */
     public void postMessage(Message messageRequest, String userNumber) {
         Message message = new Message(
@@ -46,23 +47,20 @@ public class MessagesService {
     /**
      * Метод для обновления сообщения администратором.
      *
-     * @param adminQuestionRequest запрос на обновление сообщения администратором
-     * @param userEmail            адрес электронной почты администратора
-     * @throws Exception если сообщение не найдено
+     * @param operatorAnswer запрос на обновление сообщения администратором
+     * @param adminEmail     адрес электронной почты администратора
+     * @throws MessageNotFoundException если сообщение не найдено
      */
     public void putMessage(
-        OperatorAnswer adminQuestionRequest,
-        String userEmail) throws Exception {
-            Optional<Message> message = messageRepository.findById(
-                adminQuestionRequest.getId());
+        OperatorAnswer operatorAnswer,
+        String adminEmail) throws MessageNotFoundException {
+        
+        Message message = messageRepository.findById(operatorAnswer.getId())
+            .orElseThrow(() -> new MessageNotFoundException("Сообщение не найдено"));
 
-            if (!message.isPresent()) {
-                throw new Exception("Ошибка сообщений");
-            }
-
-            message.get().setOperatorEmail(userEmail);
-            message.get().setOperatorText(adminQuestionRequest.getText());
-            message.get().setClosed(true);
-            messageRepository.save(message.get());
-        }
+        message.setOperatorEmail(adminEmail);
+        message.setOperatorText(operatorAnswer.getText());
+        message.setClosed(true);
+        messageRepository.save(message);
+    }
 }

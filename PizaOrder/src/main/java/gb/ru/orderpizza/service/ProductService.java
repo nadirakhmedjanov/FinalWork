@@ -9,7 +9,7 @@ import gb.ru.orderpizza.exception.InsufficientStockException;
 import gb.ru.orderpizza.exception.ProductAlreadyOrderedException;
 import gb.ru.orderpizza.exception.ProductNotFoundException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -62,18 +62,18 @@ public class ProductService {
             throw new ProductAlreadyOrderedException("Вы уже заказали этот продукт.");
         }
 
-        if (product.getQuantityAvaillable() < orderQuantity) {
+        if (product.getQuantityAvailable() < orderQuantity) {
             throw new InsufficientStockException("Недостаточно готовых пиц.");
         }
 
         // Уменьшаем количество доступных товаров
-        product.setQuantityAvaillable(product.getQuantityAvaillable() - orderQuantity);
+        product.setQuantityAvailable(product.getQuantityAvailable() - orderQuantity);
         productRepository.save(product);
 
         // Создаем и сохраняем заказ
         Order order = new Order();
         order.setUserNumber(String.valueOf(userNumber));
-        order.setOrderDate(LocalDate.now().toString());
+        order.setOrderDate(LocalDateTime.now());
         order.setProductId(product.getId());
         order.setOrderQuantity(orderQuantity);
         orderRepository.save(order);

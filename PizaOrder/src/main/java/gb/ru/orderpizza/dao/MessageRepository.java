@@ -3,7 +3,7 @@ package gb.ru.orderpizza.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import gb.ru.orderpizza.entity.Message;
 
@@ -20,7 +20,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
      * @return страница сообщений
      */
     Page<Message> findByUserNumber(
-        @RequestParam("user_number") String userNumber,
+        String userNumber,
         Pageable pageable);
 
     /**
@@ -31,6 +31,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
      * @return страница сообщений
      */
     Page<Message> findByClosed(
-        @RequestParam("closed") boolean closed,
+        boolean closed,
         Pageable pageable);    
 }

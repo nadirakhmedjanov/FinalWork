@@ -2,9 +2,9 @@ package gb.ru.orderpizza.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import gb.ru.orderpizza.dao.FeedbackRepository;
 import gb.ru.orderpizza.entity.Feedback;
+import gb.ru.orderpizza.exception.FeedbackAlreadyExistsException;
 import gb.ru.orderpizza.requestmodels.FeedbackRequestModel;
 
 import java.sql.Date;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Transactional
 public class FeedbackService {
     
-    private FeedbackRepository feedbackRepository;
+    private final FeedbackRepository feedbackRepository;
 
     /**
      * Конструктор класса FeedbackService.
@@ -33,32 +33,34 @@ public class FeedbackService {
      *
      * @param userNumber номер телефона пользователя
      * @param feedbackRequest модель запроса отзыва
-     * @throws Exception если отзыв уже существует
+     * @throws FeedbackAlreadyExistsException если отзыв уже существует
      */
     public void postFeedback(
         String userNumber,
-        FeedbackRequestModel feedbackRequest) throws Exception {
-            Feedback validateFeedback = feedbackRepository.findByUserNumberAndProductId(
-                userNumber, feedbackRequest.getProductId());
+        FeedbackRequestModel feedbackRequest) throws FeedbackAlreadyExistsException {
+        
+        // Проверка существования отзыва пользователя для данного продукта
+        Feedback existingFeedback = feedbackRepository.findByUserNumberAndProductId(userNumber, feedbackRequest.getProductId());
 
-        if (validateFeedback != null) {
-            throw new Exception("Повторная попытка");
-        }                
+        if (existingFeedback != null) {
+            throw new FeedbackAlreadyExistsException("Повторная попытка. Отзыв уже был оставлен.");
+        }
 
+        // Создание нового отзыва
         Feedback feedback = new Feedback();
         feedback.setProductId(feedbackRequest.getProductId());
         feedback.setRating(feedbackRequest.getRating());
         feedback.setUserNumber(userNumber);
-        if (feedbackRequest.getFeedbackDescription().isPresent()) {
-            feedback.setFeedbackDescription(
-                feedbackRequest
-                .getFeedbackDescription()
-                .map(t -> t.toString())
-                .orElse(null));
-        }
+
+        // Обработка текстового отзыва
+        feedbackRequest.getFeedbackDescription()
+            .ifPresent(feedback::setFeedbackDescription);
+
         feedback.setDate(Date.valueOf(LocalDate.now()));
+        
+        // Сохранение отзыва в репозитории
         feedbackRepository.save(feedback);
-        }
+    }
 
     /**
      * Метод для проверки наличия отзыва пользователя о товаре.
@@ -68,7 +70,6 @@ public class FeedbackService {
      * @return true, если отзыв существует, иначе false
      */
     public Boolean userFeedbackListed(String userNumber, Long productId) {
-        return feedbackRepository
-        .findByUserNumberAndProductId(userNumber, productId) != null;
-    }        
+        return feedbackRepository.findByUserNumberAndProductId(userNumber, productId) != null;
+    }
 }

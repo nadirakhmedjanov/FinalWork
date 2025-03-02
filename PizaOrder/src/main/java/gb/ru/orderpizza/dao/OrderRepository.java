@@ -39,6 +39,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      */
     @Modifying
     @Query("delete from Order where product_id in :product_id")
-    void deleteAllByProductId(@Param("product_id") Long productId);
+    void deleteAllByProductId(@Param("productId") Long productId);
 
 }

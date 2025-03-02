@@ -1,6 +1,7 @@
 package gb.ru.orderpizza.entity;
 
 import lombok.Data;
+import java.math.BigDecimal;
 import javax.persistence.*;
 
 /**
@@ -29,7 +30,7 @@ public class Product {
    * Цена Пицы в долларах (Пицы).
    */
   @Column(name = "price")
-  private int price;
+  private BigDecimal price;
 
   /**
    * Описание пицы.
@@ -41,8 +42,8 @@ public class Product {
   /**
    * Количество готовых к продаже пиц.
    */
-  @Column(name = "quantity_availlable")
-  private int quantityAvaillable;
+  @Column(name = "quantity_available")
+  private int quantityAvailable;
 
   /**
    * Категория Пицы.

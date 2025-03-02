@@ -38,7 +38,7 @@ public class Message {
     private Long id;
 
     /**
-     * Email пользователя.
+     * Номер телефона клиента.
      */
     @Column(name = "user_number")
     private String userNumber;

@@ -1,6 +1,8 @@
 package gb.ru.orderpizza.entity;
 
 import lombok.Data;
+
+import java.time.LocalDateTime;
 import javax.persistence.*;
 
 /**
@@ -29,7 +31,7 @@ public class Order {
   public Order(
       Long orderId,
       String userNumber,
-      String orderDate,
+      LocalDateTime orderDate,
       Long productId,
       int orderQuantity) {
     this.orderId = orderId;
@@ -56,7 +58,7 @@ public class Order {
    * Дата заказа.
    */
   @Column(name = "order_date")
-  private String orderDate;
+  private LocalDateTime orderDate;
 
   /**
    * Идентификатор продукта, на который сделан заказ.

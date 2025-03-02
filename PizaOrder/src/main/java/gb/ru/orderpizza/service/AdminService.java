@@ -49,7 +49,7 @@ public class AdminService {
         item.setName(product.getName());
         item.setDescription(product.getDescription());
         item.setPrice(product.getPrice());
-        item.setQuantityAvaillable(product.getQuantityAvaillable());
+        item.setQuantityAvailable(product.getQuantityAvaillable());
         item.setCategory(product.getCategory());
         item.setImg(product.getImg());
         productRepository.save(item);
@@ -85,7 +85,7 @@ public class AdminService {
             throw new Exception("Товар отсутствует");
         }
 
-        product.get().setQuantityAvaillable(product.get().getQuantityAvaillable() + 1);
+        product.get().setQuantityAvailable(product.get().getQuantityAvailable() + 1);
         productRepository.save(product.get());
     }
 
@@ -97,14 +97,14 @@ public class AdminService {
      */
     public void decProductCount(Long productId) throws  Exception {
         Optional<Product> product = productRepository.findById(productId);
-        int count = product.get().getQuantityAvaillable();
+        int count = product.get().getQuantityAvailable();
         if (count == 0)
             return;;
         if (!product.isPresent()
-        || product.get().getQuantityAvaillable() <= 0) {
+        || product.get().getQuantityAvailable() <= 0) {
             throw new Exception("Товар отсутствует");
         }
-        product.get().setQuantityAvaillable(product.get().getQuantityAvaillable() - 1);
+        product.get().setQuantityAvailable(product.get().getQuantityAvailable() - 1);
         productRepository.save(product.get());
     }
 }
