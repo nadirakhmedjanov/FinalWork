@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import gb.ru.orderpizza.config.Environment;
 import gb.ru.orderpizza.entity.Product;
-import gb.ru.orderpizza.service.ProductService;
+import gb.ru.orderpizza.service.OrderService;
 import gb.ru.orderpizza.utils.JWTParser;
 
 /**
@@ -13,17 +13,17 @@ import gb.ru.orderpizza.utils.JWTParser;
 @CrossOrigin(Environment.host)
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class OrderController {
 
-    private ProductService productService;
+    private OrderService orderService;
 
     /**
      * Конструктор контроллера.
      *
-     * @param productService сервис для операций с продуктами
+     * @param productService сервис для операций c заказами
      */
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     /**
@@ -39,7 +39,7 @@ public class ProductController {
         @RequestHeader(value = "Authorization") String token,
         @RequestParam Long productId) throws Exception {
             String userNumber = JWTParser.extractEmail(token);
-            return productService.orderProduct(userNumber, productId, 0);
+            return orderService.orderProduct(userNumber, productId, 0);
         }
 
     /**
@@ -54,7 +54,7 @@ public class ProductController {
         @RequestHeader(value = "Authorization") String token,
         @RequestParam Long productId) {
             String userNumber = JWTParser.extractEmail(token);
-        return productService.orderProductByUser(userNumber, productId);
+        return orderService.orderProductByUser(userNumber, productId);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ProductController {
     public int currentOrderCount(
         @RequestHeader(value = "Authorization") String token) {
             String userEmail = JWTParser.extractEmail(token);
-        return productService.currentOrderCount(userEmail);
+        return orderService.currentOrderCount(userEmail);
     }
 
     

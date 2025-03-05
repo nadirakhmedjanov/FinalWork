@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-public class ProductService {
+public class OrderService {
 
     private ProductRepository productRepository;
     private OrderRepository orderRepository;
@@ -32,7 +32,7 @@ public class ProductService {
      * @param orderRepository   репозиторий заказов
      * 
      */
-    public ProductService(
+    public OrderService(
             ProductRepository productRepository,
             OrderRepository orderRepository) {
         this.productRepository = productRepository;

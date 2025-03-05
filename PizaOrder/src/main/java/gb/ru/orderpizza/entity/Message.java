@@ -56,7 +56,7 @@ public class Message {
     private String userText;
 
     /**
-     * Email оператора, если сообщение было обработано администратором.
+     * Email оператора, если сообщение было обработано оператором.
      */
     @Column(name = "operator_email")
     private String operatorEmail;

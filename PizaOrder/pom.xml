@@ -8,13 +8,13 @@
 		<version>2.7.12</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ru.malysheva</groupId>
-	<artifactId>books-library</artifactId>
+	<groupId>ru.gb</groupId>
+	<artifactId>orderpizza</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>books-library</name>
+	<name>orderpizza</name>
 	<description>Spring Boot App for React</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>22</java.version>
 	</properties>
 	<dependencies>
 		<!-- okta -->

@@ -54,6 +54,7 @@ public class MethodDataRestConfig implements RepositoryRestConfigurer {
    * @param config             конфигурация репозитория Spring Data REST
    * @param unsupportedActions массив неподдерживаемых HTTP-методов
    */
+  @SuppressWarnings("unused")
   private void disableHttpMethods(
       Class<?> self,
       RepositoryRestConfiguration config,
