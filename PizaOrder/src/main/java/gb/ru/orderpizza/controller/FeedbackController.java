@@ -39,7 +39,7 @@ public class FeedbackController {
          public Boolean reviewProductByUser(
              @RequestHeader(value = "Authorization") String token,
              @RequestParam Long productId, String userNumber) throws Exception {
-                 String userMail = JWTParser.extractEmail(token);
+                 String userMail = JWTParser.extractNumber(token);
                  if (userMail == null) {
                      throw new Exception("Ошибка пользователя");
                  }
@@ -57,7 +57,7 @@ public class FeedbackController {
     public void postReview(
         @RequestHeader(value = "Authorization") String token,
         @RequestBody FeedbackRequestModel reviewRequest) throws Exception {
-            String userNumber = JWTParser.extractEmail(token);
+            String userNumber = JWTParser.extractNumber(token);
             if (userNumber == null) {
                 throw new Exception("Ошибка пользователя");
             }

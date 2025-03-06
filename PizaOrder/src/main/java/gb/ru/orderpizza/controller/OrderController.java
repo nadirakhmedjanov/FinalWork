@@ -38,7 +38,7 @@ public class OrderController {
     public Product orderProduct(
         @RequestHeader(value = "Authorization") String token,
         @RequestParam Long productId) throws Exception {
-            String userNumber = JWTParser.extractEmail(token);
+            String userNumber = JWTParser.extractNumber(token);
             return orderService.orderProduct(userNumber, productId, 0);
         }
 
@@ -53,7 +53,7 @@ public class OrderController {
     public Boolean orderProductByUser(
         @RequestHeader(value = "Authorization") String token,
         @RequestParam Long productId) {
-            String userNumber = JWTParser.extractEmail(token);
+            String userNumber = JWTParser.extractNumber(token);
         return orderService.orderProductByUser(userNumber, productId);
     }
 
@@ -66,8 +66,8 @@ public class OrderController {
     @GetMapping("/secure/currentorder/count")
     public int currentOrderCount(
         @RequestHeader(value = "Authorization") String token) {
-            String userEmail = JWTParser.extractEmail(token);
-        return orderService.currentOrderCount(userEmail);
+            String userNumber = JWTParser.extractNumber(token);
+        return orderService.currentOrderCount(userNumber);
     }
 
     

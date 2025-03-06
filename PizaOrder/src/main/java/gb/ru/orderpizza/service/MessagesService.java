@@ -45,10 +45,10 @@ public class MessagesService {
     }
 
     /**
-     * Метод для обновления сообщения администратором.
+     * Метод для обновления сообщения оператором (ответ Оператора).
      *
-     * @param operatorAnswer запрос на обновление сообщения администратором
-     * @param adminEmail     адрес электронной почты администратора
+     * @param operatorAnswer запрос на обновление сообщения оператором
+     * @param adminEmail     адрес электронной почты оператора
      * @throws MessageNotFoundException если сообщение не найдено
      */
     public void putMessage(

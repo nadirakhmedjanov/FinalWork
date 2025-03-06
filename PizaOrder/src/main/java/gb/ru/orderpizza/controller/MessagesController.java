@@ -37,7 +37,7 @@ public class MessagesController {
     public void postMessage(
         @RequestHeader(value = "Authorization") String token,
         @RequestBody Message messageRequest) {
-            String userEmail = JWTParser.extractEmail(token);
+            String userEmail = JWTParser.extractNumber(token);
             messagesService.postMessage(messageRequest, userEmail);
         }
 
@@ -52,7 +52,7 @@ public class MessagesController {
     public void putMessage(
         @RequestHeader(value = "Authorization") String token,
         @RequestBody OperatorAnswer answer) throws Exception {
-            String email = JWTParser.extractEmail(token);
+            String email = JWTParser.extractNumber(token);
             String admin = JWTParser.extractRole(token);
             if (admin == null
                 || !admin.equals("operator")) {

@@ -90,10 +90,10 @@ public class AdminService {
     }
 
     /**
-     * Метод для уменьшения количества доступных копий продукта.
+     * Метод для уменьшения количества доступного количества продукта.
      *
      * @param productId идентификатор продукта
-     * @throws Exception если продукт не найден или количество копий равно нулю
+     * @throws Exception если продукт не найден или количество  равно нулю
      */
     public void decProductCount(Long productId) throws  Exception {
         Optional<Product> product = productRepository.findById(productId);
@@ -102,7 +102,7 @@ public class AdminService {
             return;;
         if (!product.isPresent()
         || product.get().getQuantityAvailable() <= 0) {
-            throw new Exception("Товар отсутствует");
+            throw new Exception("Продукт отсутствует");
         }
         product.get().setQuantityAvailable(product.get().getQuantityAvailable() - 1);
         productRepository.save(product.get());

@@ -10,15 +10,15 @@ import java.util.Map;
 public class JWTParser {
 
     /**
-     * Метод для извлечения электронной почты из JWT-токена.
+     * Метод для извлечения номера телефона из JWT-токена.
      *
      * @param token JWT-токен
-     * @return электронная почта пользователя
+     * @return номер телефона пользователя
      */
-    public static String extractEmail(String token) {
-        String email = JWTParser.jwtExtraction(token, "\"sub\"");
-        if (email != null) 
-            return email;
+    public static String extractNumber(String token) {
+        String userNumber = JWTParser.jwtExtraction(token, "\"sub\"");
+        if (userNumber != null) 
+            return userNumber;
         return "";
     }
 
